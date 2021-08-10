@@ -15,11 +15,89 @@
     />
     <meta name="author" content="Shivam Tewari" />
 
+    <!-- Font Awesome CDNs -->
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.4/css/solid.css"
+      integrity="sha384-Tv5i09RULyHKMwX0E8wJUqSOaXlyu3SQxORObAI08iUwIalMmN5L6AvlPX2LMoSE"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.4/css/brands.css"
+      integrity="sha384-S5yUroXKhsCryF2hYGm7i8RQ/ThL96qmmWD+lF5AZTdOdsxChQktVW+cKP/s4eav"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.15.4/css/fontawesome.css"
+      integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7"
+      crossorigin="anonymous"
+    />
+
+    <!-- User-defined Stylesheet -->
     <link rel="stylesheet" href="./assets/stylesheets/index.css" />
 
     <title>Triangles Simplified</title>
   </head>
   <body>
+    <h1 class="brand-name">Triangles Simplified</h1>
+    <h3 class="hero-txt-1">We can help you conquer your fear of Triangles</h3>
+    <p class="hero-txt-2">
+      Go ahead, & select any activity below to get started -
+    </p>
+    <div class="choices">
+      <div class="choice-1" data-id="angles" onClick="{selectSubSection}">
+        <p class="choice-text" data-id="angles">Angles of Triangle ?</p>
+      </div>
+      <div class="choice-2" data-id="hypoCheck" onClick="{selectSubSection}">
+        <p class="choice-text" data-id="hypoCheck">Check Hypotenuse</p>
+      </div>
+      <div class="choice-3" data-id="area" onClick="{selectSubSection}">
+        <p class="choice-text" data-id="area">Calculate Area</p>
+      </div>
+      <div class="choice-4" data-id="quiz" onClick="{selectSubSection}">
+        <p class="choice-text" data-id="quiz">Take a Quiz</p>
+      </div>
+    </div>
+
+    <div class="footer">
+      <a class="footer__links" href="mailto:www.shivamtewari@gmail.com">
+        <i class="fas fa-envelope"></i>
+      </a>
+      <a
+        class="footer__links"
+        href="https://twitter.com/ShiviPro"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <i class="fab fa-twitter"></i>
+      </a>
+      <a
+        class="footer__links"
+        href="https://github.com/ShiviPro"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <i class="fab fa-github"></i>
+      </a>
+      <a
+        class="footer__links"
+        href="https://www.linkedin.com/in/shivam-tewari-9286b1171/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <i class="fab fa-linkedin"></i>
+      </a>
+      <a
+        class="footer__links"
+        href="https://shivamtewari.netlify.app/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <i class="fas fa-briefcase"></i>
+      </a>
+    </div>
     <script src="./assets/scripts/index.js"></script>
   </body>
 </html>
