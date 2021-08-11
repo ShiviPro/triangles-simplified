@@ -5,6 +5,10 @@ body {
   margin: 0;
 }
 
+.content {
+  display: grid;
+}
+
 .brand-name {
   height: 80px;
   font-size: 4rem;
