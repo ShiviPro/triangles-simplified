@@ -8,6 +8,10 @@ const setEventListenersAtHome = () => {
 
 const selectSubSection = (event) => {
   const homePageContent = document.querySelector("#content").innerHTML;
+  const goBack = () => {
+    documentContent.innerHTML = homePageContent;
+    setEventListenersAtHome();
+  };
   switch (event.target.getAttribute("data-id")) {
     case "angles":
       let angleDiv = document.createElement("div");
@@ -43,16 +47,52 @@ const selectSubSection = (event) => {
           output.innerHTML = `<i class="fas fa-frown-open"></i> Sorry, but these angles might not be able to make any triangle yet.`;
       };
 
-      const submitBtn = document.querySelector("#angle__submit-btn");
+      var submitBtn = document.querySelector("#angle__submit-btn");
       submitBtn.addEventListener("click", verifyTriangularity);
 
-      const goBack = (event) => {
-        documentContent.innerHTML = homePageContent;
-        setEventListenersAtHome();
+      var backBtn = document.querySelector("#angle__back-btn");
+      backBtn.addEventListener("click", goBack);
+      break;
+
+    case "hypoCheck":
+      let hypoCheck = document.createElement("div");
+      hypoCheck.classList.add("hypo-check");
+
+      hypoCheck.innerHTML = `
+            <button class="hypo-check__back-btn" id="hypo-check__back-btn"><i class="fas fa-arrow-left"></i></button>    
+            <h2 class="hypo-check__heading">Enter the sides of right-angled triangle</h2>
+            <img class="hypo-check__desc-img" alt="right-angled-triangle-sides-described" src="./assets/images/right-angled-triangle.png" />
+            <label class="hypo-check__base-label" for="base">Base=</label>
+            <input id="hypo-check__base-input" class="hypo-check__base-input" name="base" type="number" />
+            <label class="hypo-check__alt-label" for="altitude">Altitude=</label>
+            <input id="hypo-check__alt-input" class="hypo-check__alt-input" name="altitude" />
+            <button id="hypo-check__submit-btn" class="hypo-check__submit-btn">Submit</button>
+            <h2 class="hypo-check__output_heading" >Hypotenuse would be shown here- </h2>
+            <p id="hypo-check__output" class="hypo-check__output">Hypotenuse = √base<sup>2</sup>+altitude<sup>2</sup><p>
+            `;
+
+      documentContent.innerHTML = "";
+      documentContent.appendChild(hypoCheck);
+
+      const calcHypotenuse = (event) => {
+        let baseVal = parseInt(
+          document.querySelector("#hypo-check__base-input").value
+        );
+        let altVal = parseInt(
+          document.querySelector("#hypo-check__alt-input").value
+        );
+
+        let hypoVal = Math.sqrt(Math.pow(baseVal, 2) + Math.pow(altVal, 2));
+        const output = document.querySelector("#hypo-check__output");
+        output.innerText = `Hypotenuse=${hypoVal}`;
       };
 
-      const backBtn = document.querySelector("#angle__back-btn");
+      var submitBtn = document.querySelector("#hypo-check__submit-btn");
+      submitBtn.addEventListener("click", calcHypotenuse);
+
+      var backBtn = document.querySelector("#hypo-check__back-btn");
       backBtn.addEventListener("click", goBack);
+      break;
   }
 };
 
