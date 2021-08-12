@@ -9,15 +9,19 @@ const setEventListenersAtHome = () => {
 const selectSubSection = (event) => {
   const homePageContent = document.querySelector("#content").innerHTML;
   const goBack = () => {
-    documentContent.innerHTML = homePageContent;
-    setEventListenersAtHome();
+    documentContent.style.opacity = 0;
+    setTimeout(() => {
+      documentContent.innerHTML = homePageContent;
+      setEventListenersAtHome();
+      documentContent.style.opacity = 1;
+    }, 250);
   };
   switch (event.target.getAttribute("data-id")) {
     case "angles":
       let angleDiv = document.createElement("div");
       angleDiv.classList.add("angles");
       angleDiv.innerHTML = `
-                            <button class="angle__back-btn" id="angle__back-btn"><i class="fas fa-arrow-left"></i></button>
+                            <button class="back-btn" id="angle__back-btn"><i class="fas fa-arrow-left"></i></button>
                             <h2 class="angle__heading">Enter all the three angles in below to know if they can make a triangle or not</h2>
                             <input class="angle__input" id="angle__input-1" type="number"/>
                             <input class="angle__input" id="angle__input-2" type="number"/>
@@ -25,33 +29,51 @@ const selectSubSection = (event) => {
                             <button class="angle__submit-btn" id="angle__submit-btn">Submit</button>
                             <p class="angle__output" id="angle__output">Output will be shown here</p>
                         `;
-      documentContent.innerHTML = "";
-      documentContent.appendChild(angleDiv);
+      documentContent.style.opacity = 0;
+      setTimeout(() => {
+        documentContent.innerHTML = "";
+        documentContent.appendChild(angleDiv);
+        documentContent.style.opacity = 1;
+        const output = document.querySelector("#angle__output");
 
-      const output = document.querySelector("#angle__output");
+        const verifyTriangularity = (event) => {
+          const angleInput1 = parseInt(
+            document.querySelector("#angle__input-1").value
+          );
+          const angleInput2 = parseInt(
+            document.querySelector("#angle__input-2").value
+          );
+          const angleInput3 = parseInt(
+            document.querySelector("#angle__input-3").value
+          );
+          let sum = angleInput1 + angleInput2 + angleInput3;
+          if (
+            angleInput1 > 0 &&
+            angleInput2 > 0 &&
+            angleInput3 > 0 &&
+            sum === 180
+          ) {
+            output.style.opacity = 0;
+            setTimeout(() => {
+              output.innerHTML = `<i class="fas fa-laugh-beam"></i> Heck yeah ! these angles will definitely make an awesome triangle`;
+              output.style.opacity = 1;
+            }, 400);
+          } else {
+            output.style.opacity = 0;
+            setTimeout(() => {
+              output.innerHTML = `<i class="fas fa-frown-open"></i> Sorry, but these angles might not be able to make any triangle yet.`;
+              output.style.opacity = 1;
+            }, 250);
+          }
+        };
 
-      const verifyTriangularity = (event) => {
-        const angleInput1 = parseInt(
-          document.querySelector("#angle__input-1").value
-        );
-        const angleInput2 = parseInt(
-          document.querySelector("#angle__input-2").value
-        );
-        const angleInput3 = parseInt(
-          document.querySelector("#angle__input-3").value
-        );
-        let sum = angleInput1 + angleInput2 + angleInput3;
-        if (sum === 180) {
-          output.innerHTML = `<i class="fas fa-laugh-beam"></i> Heck yeah ! these angles will definitely make an awesome triangle`;
-        } else
-          output.innerHTML = `<i class="fas fa-frown-open"></i> Sorry, but these angles might not be able to make any triangle yet.`;
-      };
+        var submitBtn = document.querySelector("#angle__submit-btn");
+        submitBtn.addEventListener("click", verifyTriangularity);
 
-      var submitBtn = document.querySelector("#angle__submit-btn");
-      submitBtn.addEventListener("click", verifyTriangularity);
+        var backBtn = document.querySelector("#angle__back-btn");
+        backBtn.addEventListener("click", goBack);
+      }, 250);
 
-      var backBtn = document.querySelector("#angle__back-btn");
-      backBtn.addEventListener("click", goBack);
       break;
 
     case "hypoCheck":
@@ -59,7 +81,7 @@ const selectSubSection = (event) => {
       hypoCheck.classList.add("hypo-check");
 
       hypoCheck.innerHTML = `
-            <button class="hypo-check__back-btn" id="hypo-check__back-btn"><i class="fas fa-arrow-left"></i></button>    
+            <button class="back-btn" id="hypo-check__back-btn"><i class="fas fa-arrow-left"></i></button>    
             <h2 class="hypo-check__heading">Enter the sides of right-angled triangle</h2>
             <img class="hypo-check__desc-img" alt="image representing sides of a right-angled triangle" src="./assets/images/right-angled-triangle.png" />
             <label class="hypo-check__base-label" for="base">Base=</label>
@@ -71,199 +93,290 @@ const selectSubSection = (event) => {
             <p id="hypo-check__output" class="hypo-check__output">Hypotenuse = √base<sup class="degree-symbol">2</sup>+altitude<sup class="degree-symbol">2</sup><p>
             `;
 
-      documentContent.innerHTML = "";
-      documentContent.appendChild(hypoCheck);
+      documentContent.style.opacity = 0;
+      setTimeout(() => {
+        documentContent.innerHTML = "";
+        documentContent.appendChild(hypoCheck);
+        documentContent.style.opacity = 1;
 
-      const calcHypotenuse = (event) => {
-        let baseVal = parseInt(
-          document.querySelector("#hypo-check__base-input").value
-        );
-        let altVal = parseInt(
-          document.querySelector("#hypo-check__alt-input").value
-        );
+        const calcHypotenuse = (event) => {
+          let baseVal = parseInt(
+            document.querySelector("#hypo-check__base-input").value
+          );
+          let altVal = parseInt(
+            document.querySelector("#hypo-check__alt-input").value
+          );
 
-        let hypoVal = Math.sqrt(Math.pow(baseVal, 2) + Math.pow(altVal, 2));
-        const output = document.querySelector("#hypo-check__output");
-        output.innerText = `Hypotenuse=${hypoVal}`;
-      };
+          const output = document.querySelector("#hypo-check__output");
 
-      var submitBtn = document.querySelector("#hypo-check__submit-btn");
-      submitBtn.addEventListener("click", calcHypotenuse);
+          if (baseVal <= 0 || altVal <= 0) {
+            output.style.opacity = 0;
+            setTimeout(() => {
+              output.innerHTML = `Woah, stop <i class="fas fa-hand-paper"></i>right there !<br /> Base and/or altitude can neither be negative nor 0. <i class="fas fa-angry"></i>`;
+              output.style.opacity = 1;
+            }, 250);
+            return;
+          }
 
-      var backBtn = document.querySelector("#hypo-check__back-btn");
-      backBtn.addEventListener("click", goBack);
+          let hypoVal = Math.sqrt(Math.pow(baseVal, 2) + Math.pow(altVal, 2));
+
+          output.style.opacity = 0;
+          setTimeout(() => {
+            output.innerText = `Hypotenuse=${hypoVal}`;
+            output.style.opacity = 1;
+          }, 250);
+        };
+
+        var submitBtn = document.querySelector("#hypo-check__submit-btn");
+        submitBtn.addEventListener("click", calcHypotenuse);
+
+        var backBtn = document.querySelector("#hypo-check__back-btn");
+        backBtn.addEventListener("click", goBack);
+      }, 250);
       break;
 
     case "area":
       let calcAreaDiv = document.createElement("div");
       calcAreaDiv.classList.add("calc-area");
       calcAreaDiv.innerHTML = `
-      <button class="calc-area__back-btn" id="calc-area__back-btn"><i class="fas fa-arrow-left"></i></button>    
+      <button class="back-btn" id="calc-area__back-btn"><i class="fas fa-arrow-left"></i></button>    
       <h2 class="calc-area__heading-1">Calculate Area</h2>
       <h3 class="calc-area__heading-2">Select any option below according to the data you have - </h3>
       
-      <div id="calc-area__option-1">
+      <div class="calc-area__option-1" id="calc-area__option-1">
         <input id="calc-area__radio-btn-1" type="radio" name="area-calc-option" value="You only know base and height values.">
         <label class="calc-area__label-1">You only know base and height values.</label>
       </div>
       
-      <div id="calc-area__option-2">
+      <div class="calc-area__option-2" id="calc-area__option-2">
         <input id="calc-area__radio-btn-2" type="radio" name="area-calc-option" value="You know length of all the sides of triangle.">
         <label class="calc-area__label-2">You know length of all the sides of triangle.</label>
       </div>
       
-      <div id="calc-area__option-3">
+      <div class="calc-area__option-3" id="calc-area__option-3">
         <input id="calc-area__radio-btn-3" type="radio" name="area-calc-option" value="You only know length of 2 sides of triangle, but also know angle made by both of them.">
         <label class="calc-area__label-3">You only know length of 2 sides of triangle, but also know angle made by both of them.</label>
       </div>
       `;
 
-      documentContent.innerHTML = "";
-      documentContent.appendChild(calcAreaDiv);
+      documentContent.style.opacity = 0;
+      setTimeout(() => {
+        documentContent.innerHTML = "";
+        documentContent.appendChild(calcAreaDiv);
+        documentContent.style.opacity = 1;
+        const areaOption1 = document.querySelector("#calc-area__option-1");
+        const areaOption2 = document.querySelector("#calc-area__option-2");
+        const areaOption3 = document.querySelector("#calc-area__option-3");
 
-      const areaOption1 = document.querySelector("#calc-area__option-1");
-      const areaOption2 = document.querySelector("#calc-area__option-2");
-      const areaOption3 = document.querySelector("#calc-area__option-3");
-
-      let areaCalcOption1Div = document.createElement("div");
-      areaCalcOption1Div.classList.add("calc-area__option-1");
-      areaCalcOption1Div.innerHTML = `
-          <img  class="calc-area__option-1__image" alt="image describing base and height" src="./assets/images/triangle_base_and_height.png" />
+        let areaCalcOption1Div = document.createElement("div");
+        areaCalcOption1Div.classList.add("calc-area__option-1-res");
+        areaCalcOption1Div.innerHTML = `
+          <img  class="calc-area__option-1-res__image" alt="image describing base and height" src="./assets/images/triangle_base_and_height.png" />
           
-          <label class="calc-area__option-1__base-label" >Base = </label>
-          <input id="calc-area__option-1__base-input" class="calc-area__option-1__base-input"  type="number" />
+          <label class="calc-area__option-1-res__base-label" >Base = </label>
+          <input id="calc-area__option-1-res__base-input" class="calc-area__option-1-res__base-input"  type="number" />
           
-          <label class="calc-area__option-1__height-label" >Height = </label>
-          <input id="calc-area__option-1__height-input" class="calc-area__option-1__height-input"  type="number" />
+          <label class="calc-area__option-1-res__height-label" >Height = </label>
+          <input id="calc-area__option-1-res__height-input" class="calc-area__option-1-res__height-input"  type="number" />
           
-          <button id="calc-area__option-1__calculate-btn" class="calc-area__option-1__calculate-btn" >Calculate</button>
-          <h2 class="calc-area__option-1__output-heading" >Area would be shown here - </h2>
-          <p id="calc-area__option-1__output" class="calc-area__option-1__output" >Area = 1/2 * Base * Height</p>
+          <button id="calc-area__option-1-res__calculate-btn" class="calc-area__option-1-res__calculate-btn" >Calculate</button>
+          <h2 class="calc-area__option-1-res__output-heading" >Area would be shown here - </h2>
+          <p id="calc-area__option-1-res__output" class="calc-area__option-1-res__output" >Area = 1/2 * Base * Height</p>
           `;
 
-      let areaCalcOption2Div = document.createElement("div");
-      areaCalcOption2Div.classList.add("calc-area__option-2");
-      areaCalcOption2Div.innerHTML = `
-              <img  class="calc-area__option-2__image" alt="image of a triangle with sides a, b, and c" src="./assets/images/triangle_with_all_sides.png" />
+        let areaCalcOption2Div = document.createElement("div");
+        areaCalcOption2Div.classList.add("calc-area__option-2-res");
+        areaCalcOption2Div.innerHTML = `
+              <img  class="calc-area__option-2-res__image" alt="image of a triangle with sides a, b, and c" src="./assets/images/triangle_with_all_sides.png" />
               
-              <label class="calc-area__option-2__side-1-label" >a = </label>
-              <input id="calc-area__option-2__side-1-input" class="calc-area__option-2__side-1-input"  type="number" />
+              <label class="calc-area__option-2-res__side-1-label" >a = </label>
+              <input id="calc-area__option-2-res__side-1-input" class="calc-area__option-2-res__side-1-input"  type="number" />
               
-              <label class="calc-area__option-2__side-2-label" >b = </label>
-              <input id="calc-area__option-2__side-2-input" class="calc-area__option-2__side-2-input"  type="number" />
+              <label class="calc-area__option-2-res__side-2-label" >b = </label>
+              <input id="calc-area__option-2-res__side-2-input" class="calc-area__option-2-res__side-2-input"  type="number" />
               
-              <label class="calc-area__option-2__side-3-label" >c = </label>
-              <input id="calc-area__option-2__side-3-input" class="calc-area__option-2__side-3-input"  type="number" />
+              <label class="calc-area__option-2-res__side-3-label" >c = </label>
+              <input id="calc-area__option-2-res__side-3-input" class="calc-area__option-2-res__side-3-input"  type="number" />
 
-              <button id="calc-area__option-2__calculate-btn" class="calc-area__option-2__calculate-btn" >Calculate</button>
-              <h2 class="calc-area__option-2__output-heading" >Area would be shown here - </h2>
-              <p id="calc-area__option-2__output" class="calc-area__option-2__output" >Area = √s*(s-a)*(s-b)*(s-c); s(semi-perimeter) = (a+b+c)/2</p>
+              <button id="calc-area__option-2-res__calculate-btn" class="calc-area__option-2-res__calculate-btn" >Calculate</button>
+              <h2 class="calc-area__option-2-res__output-heading" >Area would be shown here - </h2>
+              <p id="calc-area__option-2-res__output" class="calc-area__option-2-res__output" >Area = √s*(s-a)*(s-b)*(s-c); s(semi-perimeter) = (a+b+c)/2</p>
               `;
 
-      let areaCalcOption3Div = document.createElement("div");
-      areaCalcOption3Div.classList.add("calc-area__option-3");
-      areaCalcOption3Div.innerHTML = `
-              <img  class="calc-area__option-3__image" alt="image of a triangle with sides b, c, and angle betweeen them i.e. A" src="./assets/images/triangle_with_2_sides_and_1_angle.png" />
+        let areaCalcOption3Div = document.createElement("div");
+        areaCalcOption3Div.classList.add("calc-area__option-3-res");
+        areaCalcOption3Div.innerHTML = `
+              <img  class="calc-area__option-3-res__image" alt="image of a triangle with sides b, c, and angle betweeen them i.e. A" src="./assets/images/triangle_with_2_sides_and_1_angle.png" />
               
-              <label class="calc-area__option-3__side-1-label" >b = </label>
-              <input id="calc-area__option-3__side-1-input" class="calc-area__option-3__side-1-input"  type="number" />
+              <label class="calc-area__option-3-res__side-1-label" >b = </label>
+              <input id="calc-area__option-3-res__side-1-input" class="calc-area__option-3-res__side-1-input"  type="number" />
               
-              <label class="calc-area__option-3__side-2-label" >c = </label>
-              <input id="calc-area__option-3__side-2-input" class="calc-area__option-3__side-2-input"  type="number" />
+              <label class="calc-area__option-3-res__side-2-label" >c = </label>
+              <input id="calc-area__option-3-res__side-2-input" class="calc-area__option-3-res__side-2-input"  type="number" />
               
-              <label class="calc-area__option-3__angle-3-label" >A(in degrees) = </label>
-              <input id="calc-area__option-3__angle-3-input" class="calc-area__option-3__angle-3-input"  type="number" />
+              <label class="calc-area__option-3-res__angle-3-label" >A(in degrees) = </label>
+              <input id="calc-area__option-3-res__angle-3-input" class="calc-area__option-3-res__angle-3-input"  type="number" />
 
-              <button id="calc-area__option-3__calculate-btn" class="calc-area__option-3__calculate-btn" >Calculate</button>
-              <h2 class="calc-area__option-3__output-heading" >Area would be shown here - </h2>
-              <p id="calc-area__option-3__output" class="calc-area__option-3__output" >Area = 1/2*a*b*sin(A)</p>
+              <button id="calc-area__option-3-res__calculate-btn" class="calc-area__option-3-res__calculate-btn" >Calculate</button>
+              <h2 class="calc-area__option-3-res__output-heading" >Area would be shown here - </h2>
+              <p id="calc-area__option-3-res__output" class="calc-area__option-3-res__output" >Area = 1/2*a*b*sin(A)</p>
               `;
 
-      areaOption1.addEventListener("click", (event) => {
-        document.querySelector("#calc-area__radio-btn-1").checked = true;
-        documentContent.appendChild(areaCalcOption1Div);
+        areaOption1.addEventListener("click", (event) => {
+          document.querySelector("#calc-area__radio-btn-1").checked = true;
+          documentContent.appendChild(areaCalcOption1Div);
 
-        areaCalcOption2Div.remove();
-        areaCalcOption3Div.remove();
+          areaCalcOption1Div.style.opacity = 0;
+          setTimeout(() => {
+            areaCalcOption1Div.style.opacity = 1;
 
-        const calcBtn = document.querySelector(
-          "#calc-area__option-1__calculate-btn"
-        );
-        calcBtn.addEventListener("click", (event) => {
-          let baseVal = parseInt(
-            document.querySelector("#calc-area__option-1__base-input").value
-          );
-          let heightVal = parseInt(
-            document.querySelector("#calc-area__option-1__height-input").value
-          );
+            areaCalcOption2Div.remove();
+            areaCalcOption3Div.remove();
 
-          let area = 0.5 * baseVal * heightVal;
-          const output = document.querySelector("#calc-area__option-1__output");
-          output.innerText = `Area = ${area}`;
+            const calcBtn = document.querySelector(
+              "#calc-area__option-1-res__calculate-btn"
+            );
+            calcBtn.addEventListener("click", (event) => {
+              let baseVal = parseInt(
+                document.querySelector("#calc-area__option-1-res__base-input")
+                  .value
+              );
+              let heightVal = parseInt(
+                document.querySelector("#calc-area__option-1-res__height-input")
+                  .value
+              );
+              const output = document.querySelector(
+                "#calc-area__option-1-res__output"
+              );
+
+              if (baseVal <= 0 || heightVal <= 0) {
+                output.style.opacity = 0;
+                setTimeout(() => {
+                  output.innerHTML = `Woah, stop <i class="fas fa-hand-paper"></i>right there !<br /> Base and/or height can neither be negative nor 0. <i class="fas fa-angry"></i>`;
+                  output.style.opacity = 1;
+                }, 250);
+              } else {
+                let area = 0.5 * baseVal * heightVal;
+                output.style.opacity = 0;
+                setTimeout(() => {
+                  output.innerText = `Area = ${area}`;
+                  output.style.opacity = 1;
+                }, 250);
+              }
+            });
+          }, 250);
         });
-      });
 
-      areaOption2.addEventListener("click", (event) => {
-        document.querySelector("#calc-area__radio-btn-2").checked = true;
-        documentContent.appendChild(areaCalcOption2Div);
-        areaCalcOption1Div.remove();
-        areaCalcOption3Div.remove();
+        areaOption2.addEventListener("click", (event) => {
+          document.querySelector("#calc-area__radio-btn-2").checked = true;
+          documentContent.appendChild(areaCalcOption2Div);
+          areaCalcOption2Div.style.opacity = 0;
+          setTimeout(() => {
+            areaCalcOption2Div.style.opacity = 1;
 
-        const calcBtn = document.querySelector(
-          "#calc-area__option-2__calculate-btn"
-        );
-        calcBtn.addEventListener("click", (event) => {
-          let side1Val = parseInt(
-            document.querySelector("#calc-area__option-2__side-1-input").value
-          );
-          let side2Val = parseInt(
-            document.querySelector("#calc-area__option-2__side-2-input").value
-          );
-          let side3Val = parseInt(
-            document.querySelector("#calc-area__option-2__side-3-input").value
-          );
+            areaCalcOption1Div.remove();
+            areaCalcOption3Div.remove();
 
-          let semiPerimeter = (side1Val + side2Val + side3Val) / 2;
-          let area = Math.sqrt(
-            semiPerimeter *
-              (semiPerimeter - side1Val) *
-              (semiPerimeter - side2Val) *
-              (semiPerimeter - side3Val)
-          );
-          const output = document.querySelector("#calc-area__option-2__output");
-          output.innerText = `Area = ${area}`;
+            const calcBtn = document.querySelector(
+              "#calc-area__option-2-res__calculate-btn"
+            );
+            calcBtn.addEventListener("click", (event) => {
+              let side1Val = parseInt(
+                document.querySelector("#calc-area__option-2-res__side-1-input")
+                  .value
+              );
+              let side2Val = parseInt(
+                document.querySelector("#calc-area__option-2-res__side-2-input")
+                  .value
+              );
+              let side3Val = parseInt(
+                document.querySelector("#calc-area__option-2-res__side-3-input")
+                  .value
+              );
+
+              const output = document.querySelector(
+                "#calc-area__option-2-res__output"
+              );
+
+              if (side1Val <= 0 || side2Val <= 0 || side3Val <= 0) {
+                output.style.opacity = 0;
+                setTimeout(() => {
+                  output.innerHTML = `Woah, stop <i class="fas fa-hand-paper"></i>right there !<br /> Length of any side/s can neither be negative nor 0. <i class="fas fa-angry"></i>`;
+                  output.style.opacity = 1;
+                }, 250);
+              } else {
+                let semiPerimeter = (side1Val + side2Val + side3Val) / 2;
+                let area = Math.sqrt(
+                  semiPerimeter *
+                    (semiPerimeter - side1Val) *
+                    (semiPerimeter - side2Val) *
+                    (semiPerimeter - side3Val)
+                );
+                output.style.opacity = 0;
+                setTimeout(() => {
+                  output.innerText = `Area = ${area}`;
+                  output.style.opacity = 1;
+                }, 250);
+              }
+            });
+          }, 250);
         });
-      });
 
-      areaOption3.addEventListener("click", (event) => {
-        document.querySelector("#calc-area__radio-btn-3").checked = true;
-        documentContent.appendChild(areaCalcOption3Div);
-        areaCalcOption1Div.remove();
-        areaCalcOption2Div.remove();
+        areaOption3.addEventListener("click", (event) => {
+          document.querySelector("#calc-area__radio-btn-3").checked = true;
+          documentContent.appendChild(areaCalcOption3Div);
 
-        const calcBtn = document.querySelector(
-          "#calc-area__option-3__calculate-btn"
-        );
-        calcBtn.addEventListener("click", (event) => {
-          let side1Val = parseInt(
-            document.querySelector("#calc-area__option-3__side-1-input").value
-          );
-          let side2Val = parseInt(
-            document.querySelector("#calc-area__option-3__side-2-input").value
-          );
-          let angle3Val = parseInt(
-            document.querySelector("#calc-area__option-3__angle-3-input").value
-          );
-          const ONE_DEGREE = Math.PI / 180;
-          let area =
-            0.5 * side1Val * side2Val * Math.sin(angle3Val * ONE_DEGREE);
-          const output = document.querySelector("#calc-area__option-3__output");
-          output.innerText = `Area = ${area}`;
+          areaCalcOption3Div.style.opacity = 0;
+          setTimeout(() => {
+            areaCalcOption3Div.style.opacity = 1;
+
+            areaCalcOption1Div.remove();
+            areaCalcOption2Div.remove();
+
+            const calcBtn = document.querySelector(
+              "#calc-area__option-3-res__calculate-btn"
+            );
+            calcBtn.addEventListener("click", (event) => {
+              let side1Val = parseInt(
+                document.querySelector("#calc-area__option-3-res__side-1-input")
+                  .value
+              );
+              let side2Val = parseInt(
+                document.querySelector("#calc-area__option-3-res__side-2-input")
+                  .value
+              );
+              let angle3Val = parseInt(
+                document.querySelector(
+                  "#calc-area__option-3-res__angle-3-input"
+                ).value
+              );
+              const output = document.querySelector(
+                "#calc-area__option-3-res__output"
+              );
+              if (side1Val <= 0 || side2Val <= 0) {
+                output.style.opacity = 0;
+                setTimeout(() => {
+                  output.innerHTML = `Woah, stop <i class="fas fa-hand-paper"></i>right there !<br /> Length of any side/s can neither be negative nor 0. <i class="fas fa-angry"></i>`;
+                  output.style.opacity = 1;
+                }, 250);
+              } else {
+                const ONE_RADIAN = Math.PI / 180;
+                let area =
+                  0.5 * side1Val * side2Val * Math.sin(angle3Val * ONE_RADIAN);
+                output.style.opacity = 0;
+                setTimeout(() => {
+                  output.innerText = `Area = ${area}`;
+                  output.style.opacity = 1;
+                }, 250);
+              }
+            });
+          }, 250);
         });
-      });
 
-      var backBtn = document.querySelector("#calc-area__back-btn");
-      backBtn.addEventListener("click", goBack);
+        var backBtn = document.querySelector("#calc-area__back-btn");
+        backBtn.addEventListener("click", goBack);
+      }, 250);
+
       break;
     case "quiz":
       const quizData = [
@@ -350,7 +463,7 @@ const selectSubSection = (event) => {
         return quesDiv;
       });
 
-      documentContent.innerHTML = `<button class=quiz__back-btn" id="quiz__back-btn"><i class="fas fa-arrow-left"></i></button>`;
+      documentContent.innerHTML = `<button class="back-btn" id="quiz__back-btn"><i class="fas fa-arrow-left"></i></button>`;
 
       const addQues = (
         submitBtn,
