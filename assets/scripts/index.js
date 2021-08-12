@@ -68,7 +68,7 @@ const selectSubSection = (event) => {
             <input id="hypo-check__alt-input" class="hypo-check__alt-input" name="altitude" />
             <button id="hypo-check__submit-btn" class="hypo-check__submit-btn">Submit</button>
             <h2 class="hypo-check__output_heading" >Hypotenuse would be shown here- </h2>
-            <p id="hypo-check__output" class="hypo-check__output">Hypotenuse = √base<sup>2</sup>+altitude<sup>2</sup><p>
+            <p id="hypo-check__output" class="hypo-check__output">Hypotenuse = √base<sup class="degree-symbol">2</sup>+altitude<sup class="degree-symbol">2</sup><p>
             `;
 
       documentContent.innerHTML = "";
@@ -263,6 +263,169 @@ const selectSubSection = (event) => {
       });
 
       var backBtn = document.querySelector("#calc-area__back-btn");
+      backBtn.addEventListener("click", goBack);
+      break;
+    case "quiz":
+      const quizData = [
+        {
+          ques: 'If a triangle has angles 135<sup class="degree-symbol">0</sup>, 15<sup class="degree-symbol">0</sup>, 30<sup class="degree-symbol">0</sup>. Is it an obtuse triangle?',
+          options: ["Yes", "No"],
+          correct: "Yes",
+        },
+        {
+          ques: 'If a triangle has angles 115<sup class="degree-symbol">0</sup>, 25<sup class="degree-symbol">0</sup>, 40<sup class="degree-symbol">0</sup>. Is it an acute triangle?',
+          options: ["Yes", "No"],
+          correct: "No",
+        },
+        {
+          ques: 'If a triangle has angles 90<sup class="degree-symbol">0</sup>, 60<sup class="degree-symbol">0</sup>, 30<sup class="degree-symbol">0</sup>. Is it a right angle triangle?',
+          options: ["Yes", "No"],
+          correct: "Yes",
+        },
+        {
+          ques: 'A triangle has angles 60<sup class="degree-symbol">0</sup>, 60<sup class="degree-symbol">0</sup>, 60<sup class="degree-symbol">0</sup>. Is it an equilateral triangle?',
+          options: ["Yes", "No"],
+          correct: "Yes",
+        },
+        {
+          ques: 'If a triangle has angles 25<sup class="degree-symbol">0</sup>, 75<sup class="degree-symbol">0</sup>, 80<sup class="degree-symbol">0</sup>. Is it an acute triangle?',
+          options: ["Yes", "No"],
+          correct: "Yes",
+        },
+        {
+          ques: 'If a triangle has 2 sides with equal lengths and 75<sup class="degree-symbol">0</sup> angle between them. What is the type of triangle?',
+          options: ["Equilateral", "Isosceles", "Right-angled Triangle"],
+          correct: "Isosceles",
+        },
+        {
+          ques: 'If a triangle has 2 angles of 75<sup class="degree-symbol">0</sup>. What is the measure of third angle in degree?',
+          options: ["25", "30", "15"],
+          correct: "30",
+        },
+        {
+          ques: 'If a triangle has 2 sides with equal lengths and 60<sup class="degree-symbol">0</sup> angle between them. What is the type of triangle?',
+          options: ["Equilateral", "Isosceles", "Both"],
+          correct: "Both",
+        },
+        {
+          ques: "The perimeter of an equilateral triangle is 15cm. What is the length of one side?",
+          options: ["15cm", "45cm", "5cm"],
+          correct: "5cm",
+        },
+        {
+          ques: "If a triangle has sides of 2cm, 3cm, 4cm, what is the type of triangle?",
+          options: ["Equilateral", "Isosceles", "Scalene"],
+          correct: "Scalene",
+        },
+      ];
+
+      let questions = quizData.map((quizQues, quesIndex) => {
+        let quesDiv = document.createElement("div");
+        quesDiv.classList.add("question");
+
+        let optionsDiv = document.createElement("div");
+        optionsDiv.classList.add("options");
+        quizQues.options.forEach((option, index) => {
+          let optionDiv = document.createElement("div");
+          optionDiv.classList.add(`option-${index}`);
+          optionDiv.innerHTML = `
+            <input class="option" type="radio" name="${quesIndex}" value="${option}"/>
+            <label class="option-label">${option}</label>
+            `;
+          optionDiv.addEventListener("click", (event) => {
+            optionDiv.childNodes[1].checked = true;
+          });
+          optionsDiv.appendChild(optionDiv);
+        });
+
+        quesDiv.innerHTML = `
+        <h2>${quizQues.ques}</h2>
+        `;
+        quesDiv.appendChild(optionsDiv);
+        let submitBtn = document.createElement("button");
+        submitBtn.classList.add("submit-btn");
+        submitBtn.innerText = "Submit";
+        submitBtn.setAttribute("data-correct", quizQues.correct);
+        quesDiv.appendChild(submitBtn);
+        return quesDiv;
+      });
+
+      documentContent.innerHTML = `<button class=quiz__back-btn" id="quiz__back-btn"><i class="fas fa-arrow-left"></i></button>`;
+
+      const addQues = (
+        submitBtn,
+        quesIndex,
+        question,
+        score,
+        scoreForEachQues,
+        maxScore
+      ) => {
+        submitBtn.addEventListener("click", (event) => {
+          let correctAns = event.target.getAttribute("data-correct");
+          let options = document.querySelectorAll(".option");
+          options.forEach((option) => {
+            if (option.checked === true) {
+              if (option.value === correctAns) {
+                question.style.backgroundColor = "green";
+                score += scoreForEachQues;
+              } else {
+                question.style.backgroundColor = "red";
+                // score -= scoreForEachQues;
+              }
+            }
+          });
+          window.setTimeout(() => {
+            question.remove();
+            quesIndex += 1;
+            if (quesIndex === questions.length) {
+              let scoreDiv = document.createElement("div");
+              scoreDiv.classList.add("score");
+              scoreDiv.innerHTML = `
+                    <h2>You scored ${score}/${maxScore} points</h2>
+                `;
+              documentContent.appendChild(scoreDiv);
+              return;
+            }
+            question = questions[quesIndex];
+            documentContent.appendChild(question);
+            submitBtn = document.querySelector(".submit-btn");
+            addQues(
+              submitBtn,
+              quesIndex,
+              question,
+              score,
+              scoreForEachQues,
+              maxScore
+            );
+          }, 1000);
+        });
+      };
+
+      for (
+        let questionIndex = 0;
+        questionIndex < questions.length;
+        questionIndex++
+      ) {
+        let question = questions[questionIndex];
+        let score = 0;
+        const scoreAwardedForEachQues = 1;
+        const maxScore = questions.length * scoreAwardedForEachQues;
+
+        if (questionIndex === 0) {
+          documentContent.appendChild(question);
+          let submitBtn = document.querySelector(".submit-btn");
+          addQues(
+            submitBtn,
+            questionIndex,
+            question,
+            score,
+            scoreAwardedForEachQues,
+            maxScore
+          );
+        }
+      }
+
+      var backBtn = document.querySelector("#quiz__back-btn");
       backBtn.addEventListener("click", goBack);
       break;
   }
