@@ -452,7 +452,7 @@ const selectSubSection = (event) => {
         });
 
         quesDiv.innerHTML = `
-        <h2>${quizQues.ques}</h2>
+        <h2 class="question-txt">${quizQues.ques}</h2>
         `;
         quesDiv.appendChild(optionsDiv);
         let submitBtn = document.createElement("button");
@@ -476,17 +476,25 @@ const selectSubSection = (event) => {
         submitBtn.addEventListener("click", (event) => {
           let correctAns = event.target.getAttribute("data-correct");
           let options = document.querySelectorAll(".option");
+          let isAttempted = false;
           options.forEach((option) => {
             if (option.checked === true) {
+              isAttempted = true;
               if (option.value === correctAns) {
-                question.style.backgroundColor = "green";
+                question.classList.add("bgGreen");
+                question.classList.add("border-solid-2px-black");
                 score += scoreForEachQues;
               } else {
-                question.style.backgroundColor = "red";
+                question.classList.add("bgRed");
+                question.classList.add("border-solid-2px-black");
                 // score -= scoreForEachQues;
               }
             }
           });
+          if (!isAttempted) {
+            question.classList.add("bgYellow");
+            question.classList.add("border-solid-2px-black");
+          }
           window.setTimeout(() => {
             question.remove();
             quesIndex += 1;
