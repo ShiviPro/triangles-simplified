@@ -465,7 +465,7 @@ const selectSubSection = (event) => {
         quesDiv.appendChild(optionsDiv);
         let submitBtn = document.createElement("button");
         submitBtn.classList.add("submit-btn");
-        submitBtn.innerText = "Submit";
+        submitBtn.innerText = "Next";
         submitBtn.setAttribute("data-correct", quizQues.correct);
         quesDiv.appendChild(submitBtn);
         return quesDiv;
@@ -518,6 +518,9 @@ const selectSubSection = (event) => {
             question = questions[quesIndex];
             documentContent.appendChild(question);
             submitBtn = document.querySelector(".submit-btn");
+            if (quesIndex === questions.length - 1) {
+              submitBtn.innerText = "End Quiz";
+            }
             addQues(
               submitBtn,
               quesIndex,
