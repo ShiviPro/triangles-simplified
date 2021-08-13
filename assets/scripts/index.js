@@ -144,17 +144,17 @@ const selectSubSection = (event) => {
       <h3 class="calc-area__heading-2">Select any option below according to the data you have - </h3>
       
       <div class="calc-area__option-1" id="calc-area__option-1">
-        <input id="calc-area__radio-btn-1" type="radio" name="area-calc-option" value="You only know base and height values.">
+        <input class="calc-area__radio-btn-1" id="calc-area__radio-btn-1" type="radio" name="area-calc-option" value="You only know base and height values.">
         <label class="calc-area__label-1">You only know base and height values.</label>
       </div>
       
       <div class="calc-area__option-2" id="calc-area__option-2">
-        <input id="calc-area__radio-btn-2" type="radio" name="area-calc-option" value="You know length of all the sides of triangle.">
+        <input class="calc-area__radio-btn-2" id="calc-area__radio-btn-2" type="radio" name="area-calc-option" value="You know length of all the sides of triangle.">
         <label class="calc-area__label-2">You know length of all the sides of triangle.</label>
       </div>
       
       <div class="calc-area__option-3" id="calc-area__option-3">
-        <input id="calc-area__radio-btn-3" type="radio" name="area-calc-option" value="You only know length of 2 sides of triangle, but also know angle made by both of them.">
+        <input class="calc-area__radio-btn-3" id="calc-area__radio-btn-3" type="radio" name="area-calc-option" value="You only know length of 2 sides of triangle, but also know angle made by both of them.">
         <label class="calc-area__label-3">You only know length of 2 sides of triangle, but also know angle made by both of them.</label>
       </div>
       `;
@@ -445,10 +445,18 @@ const selectSubSection = (event) => {
             <input class="option" type="radio" name="${quesIndex}" value="${option}"/>
             <label class="option-label">${option}</label>
             `;
+          optionsDiv.appendChild(optionDiv);
+        });
+        optionsDiv.childNodes.forEach((optionDiv, index) => {
           optionDiv.addEventListener("click", (event) => {
             optionDiv.childNodes[1].checked = true;
+            optionDiv.childNodes[3].classList.add("bgPurple");
+            optionsDiv.childNodes.forEach((opt, ind) => {
+              if (ind !== index) {
+                opt.childNodes[3].classList.remove("bgPurple");
+              }
+            });
           });
-          optionsDiv.appendChild(optionDiv);
         });
 
         quesDiv.innerHTML = `

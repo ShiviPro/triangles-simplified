@@ -8,6 +8,7 @@
   --green: #32ff7e;
   --red: #f53b57;
   --yellow: #fffa65;
+  --purple: #c56cf0;
 }
 
 body {
@@ -87,6 +88,7 @@ body {
   padding: 20px;
   z-index: 1;
   transition: transform 400ms;
+  cursor: pointer;
 }
 
 .back-btn:hover {
@@ -155,6 +157,7 @@ body {
   font-family: inherit;
   background-color: var(--orange);
   transition: background-color 350ms;
+  cursor: pointer;
 }
 
 .angle__submit-btn:hover,
@@ -209,6 +212,15 @@ body {
   font-size: 1.3rem;
 }
 
+.calc-area__label-1,
+.calc-area__label-2,
+.calc-area__label-3,
+.calc-area__radio-btn-1,
+.calc-area__radio-btn-2,
+.calc-area__radio-btn-3 {
+  cursor: pointer;
+}
+
 .calc-area__option-1,
 .calc-area__option-2,
 .calc-area__option-3 {
@@ -220,7 +232,7 @@ body {
 div[class^="option-"] {
   text-align: left;
   display: block;
-  margin: 20px 20vw;
+  margin: 20px auto;
   width: max-content;
 }
 
@@ -247,6 +259,10 @@ div[class^="option-"] {
   border: 2px solid var(--black);
 }
 
+.bgPurple {
+  background-color: var(--purple);
+}
+
 .bgRed {
   background-color: var(--red);
 }
@@ -260,7 +276,19 @@ div[class^="option-"] {
 }
 
 .option-label {
+  text-align: center;
   font-size: 1.5rem;
+  border: 2px solid var(--black);
+  border-radius: 10px;
+  padding: 10px 20px;
+  display: block;
+  width: 400px;
+  transition: background-color 400ms;
+  cursor: pointer;
+}
+
+.option {
+  display: none;
 }
 
 @keyframes fadeIn {
