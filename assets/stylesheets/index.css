@@ -53,6 +53,7 @@ body {
   grid-template-columns: auto 1fr;
   column-gap: 10px;
   row-gap: 10px;
+  padding: 20px;
 }
 
 .choice-1,
@@ -117,6 +118,7 @@ body {
 
 .angle__heading {
   margin: auto 50px;
+  padding: 20px;
 }
 
 .angle__input,
@@ -139,6 +141,7 @@ body {
   text-align: center;
   font-family: inherit;
   font-size: 1.5rem;
+  margin: 10px 20px;
 }
 
 .angle__submit-btn,
