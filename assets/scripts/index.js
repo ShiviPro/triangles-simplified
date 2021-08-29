@@ -7,7 +7,7 @@ const setEventListenersAtHome = () => {
 };
 
 const selectSubSection = (event) => {
-  const homePageContent = document.querySelector("#content").innerHTML;
+  const homePageContent = documentContent.innerHTML;
   const goBack = () => {
     documentContent.style.opacity = 0;
     setTimeout(() => {
@@ -57,7 +57,7 @@ const selectSubSection = (event) => {
             setTimeout(() => {
               output.innerHTML = `<i class="fas fa-laugh-beam"></i> Heck yeah ! these angles will definitely make an awesome triangle`;
               output.style.opacity = 1;
-            }, 400);
+            }, 250);
           } else {
             output.style.opacity = 0;
             setTimeout(() => {
@@ -144,18 +144,18 @@ const selectSubSection = (event) => {
       <h3 class="calc-area__heading-2">Select any option below according to the data you have - </h3>
       
       <div class="calc-area__option-1" id="calc-area__option-1">
-        <input class="calc-area__radio-btn-1" id="calc-area__radio-btn-1" type="radio" name="area-calc-option" value="You only know base and height values.">
+        <input class="calc-area__radio-btn-1" id="calc-area__radio-btn-1" type="radio" name="area-calc-option">
         <label class="calc-area__label-1">You only know base and height values.</label>
       </div>
       
       <div class="calc-area__option-2" id="calc-area__option-2">
-        <input class="calc-area__radio-btn-2" id="calc-area__radio-btn-2" type="radio" name="area-calc-option" value="You know length of all the sides of triangle.">
+        <input class="calc-area__radio-btn-2" id="calc-area__radio-btn-2" type="radio" name="area-calc-option">
         <label class="calc-area__label-2">You know length of all the sides of triangle.</label>
       </div>
       
       <div class="calc-area__option-3" id="calc-area__option-3">
-        <input class="calc-area__radio-btn-3" id="calc-area__radio-btn-3" type="radio" name="area-calc-option" value="You only know length of 2 sides of triangle, but also know angle made by both of them.">
-        <label class="calc-area__label-3">You only know length of 2 sides of triangle, but also know angle made by both of them.</label>
+        <input class="calc-area__radio-btn-3" id="calc-area__radio-btn-3" type="radio" name="area-calc-option">
+        <label class="calc-area__label-3">You not only know length of 2 sides of triangle, but also the angle made by both of them.</label>
       </div>
       `;
 
@@ -227,11 +227,11 @@ const selectSubSection = (event) => {
           documentContent.appendChild(areaCalcOption1Div);
 
           areaCalcOption1Div.style.opacity = 0;
+          areaCalcOption2Div.remove();
+          areaCalcOption3Div.remove();
+
           setTimeout(() => {
             areaCalcOption1Div.style.opacity = 1;
-
-            areaCalcOption2Div.remove();
-            areaCalcOption3Div.remove();
 
             const calcBtn = document.querySelector(
               "#calc-area__option-1-res__calculate-btn"
@@ -270,12 +270,13 @@ const selectSubSection = (event) => {
         areaOption2.addEventListener("click", (event) => {
           document.querySelector("#calc-area__radio-btn-2").checked = true;
           documentContent.appendChild(areaCalcOption2Div);
+
           areaCalcOption2Div.style.opacity = 0;
+          areaCalcOption1Div.remove();
+          areaCalcOption3Div.remove();
+
           setTimeout(() => {
             areaCalcOption2Div.style.opacity = 1;
-
-            areaCalcOption1Div.remove();
-            areaCalcOption3Div.remove();
 
             const calcBtn = document.querySelector(
               "#calc-area__option-2-res__calculate-btn"
@@ -327,11 +328,11 @@ const selectSubSection = (event) => {
           documentContent.appendChild(areaCalcOption3Div);
 
           areaCalcOption3Div.style.opacity = 0;
+          areaCalcOption1Div.remove();
+          areaCalcOption2Div.remove();
+
           setTimeout(() => {
             areaCalcOption3Div.style.opacity = 1;
-
-            areaCalcOption1Div.remove();
-            areaCalcOption2Div.remove();
 
             const calcBtn = document.querySelector(
               "#calc-area__option-3-res__calculate-btn"
@@ -360,9 +361,12 @@ const selectSubSection = (event) => {
                   output.style.opacity = 1;
                 }, 250);
               } else {
-                const ONE_RADIAN = Math.PI / 180;
+                const ONE_DEGREE_IN_RADIANS = Math.PI / 180;
                 let area =
-                  0.5 * side1Val * side2Val * Math.sin(angle3Val * ONE_RADIAN);
+                  0.5 *
+                  side1Val *
+                  side2Val *
+                  Math.sin(angle3Val * ONE_DEGREE_IN_RADIANS);
                 output.style.opacity = 0;
                 setTimeout(() => {
                   output.innerText = `Area = ${area}`;
