@@ -37,33 +37,38 @@ const selectSubSection = (event) => {
         const output = document.querySelector("#angle__output");
 
         const verifyTriangularity = (event) => {
-          const angleInput1 = parseInt(
-            document.querySelector("#angle__input-1").value
-          );
-          const angleInput2 = parseInt(
-            document.querySelector("#angle__input-2").value
-          );
-          const angleInput3 = parseInt(
-            document.querySelector("#angle__input-3").value
-          );
-          let sum = angleInput1 + angleInput2 + angleInput3;
-          if (
-            angleInput1 > 0 &&
-            angleInput2 > 0 &&
-            angleInput3 > 0 &&
-            sum === 180
-          ) {
+          let angleInput1 = document.querySelector("#angle__input-1").value;
+          let angleInput2 = document.querySelector("#angle__input-2").value;
+          let angleInput3 = document.querySelector("#angle__input-3").value;
+          if (angleInput1 === "" || angleInput2 === "" || angleInput3 === "") {
             output.style.opacity = 0;
             setTimeout(() => {
-              output.innerHTML = `<i class="fas fa-laugh-beam"></i> Heck yeah ! these angles will definitely make an awesome triangle`;
+              output.innerHTML = `<i class="fas fa-grimace"></i> A tri-angle consists of 3 angles. So please specify all of them.`;
               output.style.opacity = 1;
             }, 250);
           } else {
-            output.style.opacity = 0;
-            setTimeout(() => {
-              output.innerHTML = `<i class="fas fa-frown-open"></i> Sorry, but these angles might not be able to make any triangle yet.`;
-              output.style.opacity = 1;
-            }, 250);
+            const angleInput1Val = parseInt(angleInput1);
+            const angleInput2Val = parseInt(angleInput2);
+            const angleInput3Val = parseInt(angleInput3);
+            let sum = angleInput1Val + angleInput2Val + angleInput3Val;
+            if (
+              angleInput1Val > 0 &&
+              angleInput2Val > 0 &&
+              angleInput3Val > 0 &&
+              sum === 180
+            ) {
+              output.style.opacity = 0;
+              setTimeout(() => {
+                output.innerHTML = `<i class="fas fa-laugh-beam"></i> Heck yeah ! these angles will definitely make an awesome triangle`;
+                output.style.opacity = 1;
+              }, 250);
+            } else {
+              output.style.opacity = 0;
+              setTimeout(() => {
+                output.innerHTML = `<i class="fas fa-frown-open"></i> Sorry, but these angles might not be able to make any triangle yet.`;
+                output.style.opacity = 1;
+              }, 250);
+            }
           }
         };
 
@@ -100,31 +105,38 @@ const selectSubSection = (event) => {
         documentContent.style.opacity = 1;
 
         const calcHypotenuse = (event) => {
-          let baseVal = parseInt(
-            document.querySelector("#hypo-check__base-input").value
-          );
-          let altVal = parseInt(
-            document.querySelector("#hypo-check__alt-input").value
-          );
+          let base = document.querySelector("#hypo-check__base-input").value;
+          let alt = document.querySelector("#hypo-check__alt-input").value;
 
           const output = document.querySelector("#hypo-check__output");
 
-          if (baseVal <= 0 || altVal <= 0) {
+          if (base === "" || alt === "") {
             output.style.opacity = 0;
             setTimeout(() => {
-              output.innerHTML = `Woah, stop <i class="fas fa-hand-paper"></i>right there !<br /> Base and/or altitude can neither be negative nor 0. <i class="fas fa-angry"></i>`;
+              output.innerHTML = `<i class="fas fa-grimace"></i> In order to give you the Hypotenuse, we require both Base & Altitude.`;
               output.style.opacity = 1;
             }, 250);
-            return;
+          } else {
+            let baseVal = parseInt(base);
+            let altVal = parseInt(alt);
+
+            if (baseVal <= 0 || altVal <= 0) {
+              output.style.opacity = 0;
+              setTimeout(() => {
+                output.innerHTML = `Woah, stop <i class="fas fa-hand-paper"></i>right there !<br /> Base and/or altitude can neither be negative nor 0. <i class="fas fa-angry"></i>`;
+                output.style.opacity = 1;
+              }, 250);
+              return;
+            }
+
+            let hypoVal = Math.sqrt(Math.pow(baseVal, 2) + Math.pow(altVal, 2));
+
+            output.style.opacity = 0;
+            setTimeout(() => {
+              output.innerText = `Hypotenuse=${hypoVal}`;
+              output.style.opacity = 1;
+            }, 250);
           }
-
-          let hypoVal = Math.sqrt(Math.pow(baseVal, 2) + Math.pow(altVal, 2));
-
-          output.style.opacity = 0;
-          setTimeout(() => {
-            output.innerText = `Hypotenuse=${hypoVal}`;
-            output.style.opacity = 1;
-          }, 250);
         };
 
         var submitBtn = document.querySelector("#hypo-check__submit-btn");
@@ -237,31 +249,41 @@ const selectSubSection = (event) => {
               "#calc-area__option-1-res__calculate-btn"
             );
             calcBtn.addEventListener("click", (event) => {
-              let baseVal = parseInt(
-                document.querySelector("#calc-area__option-1-res__base-input")
-                  .value
-              );
-              let heightVal = parseInt(
-                document.querySelector("#calc-area__option-1-res__height-input")
-                  .value
-              );
+              let base = document.querySelector(
+                "#calc-area__option-1-res__base-input"
+              ).value;
+              let height = document.querySelector(
+                "#calc-area__option-1-res__height-input"
+              ).value;
+
               const output = document.querySelector(
                 "#calc-area__option-1-res__output"
               );
 
-              if (baseVal <= 0 || heightVal <= 0) {
+              if (base === "" || height === "") {
                 output.style.opacity = 0;
                 setTimeout(() => {
-                  output.innerHTML = `Woah, stop <i class="fas fa-hand-paper"></i>right there !<br /> Base and/or height can neither be negative nor 0. <i class="fas fa-angry"></i>`;
+                  output.innerHTML = `<i class="fas fa-grimace"></i> In order to give you the Area, we require both Base as well as Height.`;
                   output.style.opacity = 1;
                 }, 250);
               } else {
-                let area = 0.5 * baseVal * heightVal;
-                output.style.opacity = 0;
-                setTimeout(() => {
-                  output.innerText = `Area = ${area}`;
-                  output.style.opacity = 1;
-                }, 250);
+                let baseVal = parseInt(base);
+                let heightVal = parseInt(height);
+
+                if (baseVal <= 0 || heightVal <= 0) {
+                  output.style.opacity = 0;
+                  setTimeout(() => {
+                    output.innerHTML = `Woah, stop <i class="fas fa-hand-paper"></i>right there !<br /> Base and/or height can neither be negative nor 0. <i class="fas fa-angry"></i>`;
+                    output.style.opacity = 1;
+                  }, 250);
+                } else {
+                  let area = 0.5 * baseVal * heightVal;
+                  output.style.opacity = 0;
+                  setTimeout(() => {
+                    output.innerText = `Area = ${area}`;
+                    output.style.opacity = 1;
+                  }, 250);
+                }
               }
             });
           }, 250);
@@ -282,42 +304,51 @@ const selectSubSection = (event) => {
               "#calc-area__option-2-res__calculate-btn"
             );
             calcBtn.addEventListener("click", (event) => {
-              let side1Val = parseInt(
-                document.querySelector("#calc-area__option-2-res__side-1-input")
-                  .value
-              );
-              let side2Val = parseInt(
-                document.querySelector("#calc-area__option-2-res__side-2-input")
-                  .value
-              );
-              let side3Val = parseInt(
-                document.querySelector("#calc-area__option-2-res__side-3-input")
-                  .value
-              );
+              let side1 = document.querySelector(
+                "#calc-area__option-2-res__side-1-input"
+              ).value;
+              let side2 = document.querySelector(
+                "#calc-area__option-2-res__side-2-input"
+              ).value;
+              let side3 = document.querySelector(
+                "#calc-area__option-2-res__side-3-input"
+              ).value;
 
               const output = document.querySelector(
                 "#calc-area__option-2-res__output"
               );
 
-              if (side1Val <= 0 || side2Val <= 0 || side3Val <= 0) {
+              if (side1 === "" || side2 === "" || side3 === "") {
                 output.style.opacity = 0;
                 setTimeout(() => {
-                  output.innerHTML = `Woah, stop <i class="fas fa-hand-paper"></i>right there !<br /> Length of any side/s can neither be negative nor 0. <i class="fas fa-angry"></i>`;
+                  output.innerHTML = `<i class="fas fa-grimace"></i> In order to give you the Area, we require all sides of the Triangle.`;
                   output.style.opacity = 1;
                 }, 250);
               } else {
-                let semiPerimeter = (side1Val + side2Val + side3Val) / 2;
-                let area = Math.sqrt(
-                  semiPerimeter *
-                    (semiPerimeter - side1Val) *
-                    (semiPerimeter - side2Val) *
-                    (semiPerimeter - side3Val)
-                );
-                output.style.opacity = 0;
-                setTimeout(() => {
-                  output.innerText = `Area = ${area}`;
-                  output.style.opacity = 1;
-                }, 250);
+                let side1Val = parseInt(side1);
+                let side2Val = parseInt(side2);
+                let side3Val = parseInt(side3);
+
+                if (side1Val <= 0 || side2Val <= 0 || side3Val <= 0) {
+                  output.style.opacity = 0;
+                  setTimeout(() => {
+                    output.innerHTML = `Woah, stop <i class="fas fa-hand-paper"></i>right there !<br /> Length of any side/s can neither be negative nor 0. <i class="fas fa-angry"></i>`;
+                    output.style.opacity = 1;
+                  }, 250);
+                } else {
+                  let semiPerimeter = (side1Val + side2Val + side3Val) / 2;
+                  let area = Math.sqrt(
+                    semiPerimeter *
+                      (semiPerimeter - side1Val) *
+                      (semiPerimeter - side2Val) *
+                      (semiPerimeter - side3Val)
+                  );
+                  output.style.opacity = 0;
+                  setTimeout(() => {
+                    output.innerText = `Area = ${area}`;
+                    output.style.opacity = 1;
+                  }, 250);
+                }
               }
             });
           }, 250);
@@ -338,40 +369,49 @@ const selectSubSection = (event) => {
               "#calc-area__option-3-res__calculate-btn"
             );
             calcBtn.addEventListener("click", (event) => {
-              let side1Val = parseInt(
-                document.querySelector("#calc-area__option-3-res__side-1-input")
-                  .value
-              );
-              let side2Val = parseInt(
-                document.querySelector("#calc-area__option-3-res__side-2-input")
-                  .value
-              );
-              let angle3Val = parseInt(
-                document.querySelector(
-                  "#calc-area__option-3-res__angle-3-input"
-                ).value
-              );
+              let side1 = document.querySelector(
+                "#calc-area__option-3-res__side-1-input"
+              ).value;
+              let side2 = document.querySelector(
+                "#calc-area__option-3-res__side-2-input"
+              ).value;
+              let angle3 = document.querySelector(
+                "#calc-area__option-3-res__angle-3-input"
+              ).value;
+
               const output = document.querySelector(
                 "#calc-area__option-3-res__output"
               );
-              if (side1Val <= 0 || side2Val <= 0) {
+
+              if (side1 === "" || side2 === "" || angle3 === "") {
                 output.style.opacity = 0;
                 setTimeout(() => {
-                  output.innerHTML = `Woah, stop <i class="fas fa-hand-paper"></i>right there !<br /> Length of any side/s can neither be negative nor 0. <i class="fas fa-angry"></i>`;
+                  output.innerHTML = `<i class="fas fa-grimace"></i> In order to give you the Area, we require 2 sides of the Triangle, along with the angle between them.`;
                   output.style.opacity = 1;
                 }, 250);
               } else {
-                const ONE_DEGREE_IN_RADIANS = Math.PI / 180;
-                let area =
-                  0.5 *
-                  side1Val *
-                  side2Val *
-                  Math.sin(angle3Val * ONE_DEGREE_IN_RADIANS);
-                output.style.opacity = 0;
-                setTimeout(() => {
-                  output.innerText = `Area = ${area}`;
-                  output.style.opacity = 1;
-                }, 250);
+                let side1Val = parseInt(side1);
+                let side2Val = parseInt(side2);
+                let angle3Val = parseInt(angle3);
+                if (side1Val <= 0 || side2Val <= 0) {
+                  output.style.opacity = 0;
+                  setTimeout(() => {
+                    output.innerHTML = `Woah, stop <i class="fas fa-hand-paper"></i>right there !<br /> Length of any side/s can neither be negative nor 0. <i class="fas fa-angry"></i>`;
+                    output.style.opacity = 1;
+                  }, 250);
+                } else {
+                  const ONE_DEGREE_IN_RADIANS = Math.PI / 180;
+                  let area =
+                    0.5 *
+                    side1Val *
+                    side2Val *
+                    Math.sin(angle3Val * ONE_DEGREE_IN_RADIANS);
+                  output.style.opacity = 0;
+                  setTimeout(() => {
+                    output.innerText = `Area = ${area}`;
+                    output.style.opacity = 1;
+                  }, 250);
+                }
               }
             });
           }, 250);
