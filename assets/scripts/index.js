@@ -16,6 +16,17 @@ const selectSubSection = (event) => {
       documentContent.style.opacity = 1;
     }, 250);
   };
+
+  const isFloating = (num) => {
+    return num.toString().indexOf(".") != -1;
+  };
+
+  const getDigitsAfterDec = (num) => {
+    num = num.toString();
+    let digitsAfterDec = num.substring(num.indexOf(".") + 1);
+    return digitsAfterDec.length;
+  };
+
   switch (event.target.getAttribute("data-id")) {
     case "angles":
       let angleDiv = document.createElement("div");
@@ -47,9 +58,9 @@ const selectSubSection = (event) => {
               output.style.opacity = 1;
             }, 250);
           } else {
-            const angleInput1Val = parseInt(angleInput1);
-            const angleInput2Val = parseInt(angleInput2);
-            const angleInput3Val = parseInt(angleInput3);
+            const angleInput1Val = parseFloat(angleInput1);
+            const angleInput2Val = parseFloat(angleInput2);
+            const angleInput3Val = parseFloat(angleInput3);
             let sum = angleInput1Val + angleInput2Val + angleInput3Val;
             if (
               angleInput1Val > 0 &&
@@ -117,8 +128,8 @@ const selectSubSection = (event) => {
               output.style.opacity = 1;
             }, 250);
           } else {
-            let baseVal = parseInt(base);
-            let altVal = parseInt(alt);
+            let baseVal = parseFloat(base);
+            let altVal = parseFloat(alt);
 
             if (baseVal <= 0 || altVal <= 0) {
               output.style.opacity = 0;
@@ -131,9 +142,23 @@ const selectSubSection = (event) => {
 
             let hypoVal = Math.sqrt(Math.pow(baseVal, 2) + Math.pow(altVal, 2));
 
+            if (isFloating(hypoVal)) {
+              switch (getDigitsAfterDec(hypoVal)) {
+                case 1:
+                  hypoVal = hypoVal.toFixed(1);
+                  break;
+                case 2:
+                  hypoVal = hypoVal.toFixed(2);
+                  break;
+                default:
+                  hypoVal = hypoVal.toFixed(3);
+                  break;
+              }
+            }
+
             output.style.opacity = 0;
             setTimeout(() => {
-              output.innerText = `Hypotenuse=${hypoVal}`;
+              output.innerText = `Hypotenuse = ${hypoVal}`;
               output.style.opacity = 1;
             }, 250);
           }
@@ -267,8 +292,8 @@ const selectSubSection = (event) => {
                   output.style.opacity = 1;
                 }, 250);
               } else {
-                let baseVal = parseInt(base);
-                let heightVal = parseInt(height);
+                let baseVal = parseFloat(base);
+                let heightVal = parseFloat(height);
 
                 if (baseVal <= 0 || heightVal <= 0) {
                   output.style.opacity = 0;
@@ -278,6 +303,19 @@ const selectSubSection = (event) => {
                   }, 250);
                 } else {
                   let area = 0.5 * baseVal * heightVal;
+                  if (isFloating(area)) {
+                    switch (getDigitsAfterDec(area)) {
+                      case 1:
+                        area = area.toFixed(1);
+                        break;
+                      case 2:
+                        area = area.toFixed(2);
+                        break;
+                      default:
+                        area = area.toFixed(3);
+                        break;
+                    }
+                  }
                   output.style.opacity = 0;
                   setTimeout(() => {
                     output.innerText = `Area = ${area}`;
@@ -325,9 +363,9 @@ const selectSubSection = (event) => {
                   output.style.opacity = 1;
                 }, 250);
               } else {
-                let side1Val = parseInt(side1);
-                let side2Val = parseInt(side2);
-                let side3Val = parseInt(side3);
+                let side1Val = parseFloat(side1);
+                let side2Val = parseFloat(side2);
+                let side3Val = parseFloat(side3);
 
                 if (side1Val <= 0 || side2Val <= 0 || side3Val <= 0) {
                   output.style.opacity = 0;
@@ -343,6 +381,19 @@ const selectSubSection = (event) => {
                       (semiPerimeter - side2Val) *
                       (semiPerimeter - side3Val)
                   );
+                  if (isFloating(area)) {
+                    switch (getDigitsAfterDec(area)) {
+                      case 1:
+                        area = area.toFixed(1);
+                        break;
+                      case 2:
+                        area = area.toFixed(2);
+                        break;
+                      default:
+                        area = area.toFixed(3);
+                        break;
+                    }
+                  }
                   output.style.opacity = 0;
                   setTimeout(() => {
                     output.innerText = `Area = ${area}`;
@@ -390,9 +441,9 @@ const selectSubSection = (event) => {
                   output.style.opacity = 1;
                 }, 250);
               } else {
-                let side1Val = parseInt(side1);
-                let side2Val = parseInt(side2);
-                let angle3Val = parseInt(angle3);
+                let side1Val = parseFloat(side1);
+                let side2Val = parseFloat(side2);
+                let angle3Val = parseFloat(angle3);
                 if (side1Val <= 0 || side2Val <= 0) {
                   output.style.opacity = 0;
                   setTimeout(() => {
@@ -406,6 +457,19 @@ const selectSubSection = (event) => {
                     side1Val *
                     side2Val *
                     Math.sin(angle3Val * ONE_DEGREE_IN_RADIANS);
+                  if (isFloating(area)) {
+                    switch (getDigitsAfterDec(area)) {
+                      case 1:
+                        area = area.toFixed(1);
+                        break;
+                      case 2:
+                        area = area.toFixed(2);
+                        break;
+                      default:
+                        area = area.toFixed(3);
+                        break;
+                    }
+                  }
                   output.style.opacity = 0;
                   setTimeout(() => {
                     output.innerText = `Area = ${area}`;
