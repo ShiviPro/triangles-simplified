@@ -1,12 +1,12 @@
-let documentContent = document.querySelector("#content");
+const documentContent = document.querySelector("#content");
 const setEventListenersAtHome = () => {
-  let subSections = document.querySelectorAll(".sub-section");
-  subSections.forEach((subSection) => {
+  const subSections = document.querySelectorAll(".sub-section");
+  subSections.forEach(subSection => {
     subSection.addEventListener("click", selectSubSection);
   });
 };
 
-const selectSubSection = (event) => {
+const selectSubSection = event => {
   const homePageContent = documentContent.innerHTML;
   const goBack = () => {
     documentContent.style.opacity = 0;
@@ -17,19 +17,17 @@ const selectSubSection = (event) => {
     }, 250);
   };
 
-  const isFloating = (num) => {
-    return num.toString().indexOf(".") != -1;
-  };
+  const isFloating = num => num.toString().indexOf(".") != -1;
 
-  const getDigitsAfterDec = (num) => {
+  const getDigitsAfterDec = num => {
     num = num.toString();
-    let digitsAfterDec = num.substring(num.indexOf(".") + 1);
+    const digitsAfterDec = num.substring(num.indexOf(".") + 1);
     return digitsAfterDec.length;
   };
 
   switch (event.target.getAttribute("data-id")) {
     case "angles":
-      let angleDiv = document.createElement("div");
+      const angleDiv = document.createElement("div");
       angleDiv.classList.add("angles");
       angleDiv.innerHTML = `
                             <button class="back-btn" id="angle__back-btn"><i class="fas fa-arrow-left"></i></button>
@@ -47,10 +45,10 @@ const selectSubSection = (event) => {
         documentContent.style.opacity = 1;
         const output = document.querySelector("#angle__output");
 
-        const verifyTriangularity = (event) => {
-          let angleInput1 = document.querySelector("#angle__input-1").value;
-          let angleInput2 = document.querySelector("#angle__input-2").value;
-          let angleInput3 = document.querySelector("#angle__input-3").value;
+        const verifyTriangularity = () => {
+          const angleInput1 = document.querySelector("#angle__input-1").value;
+          const angleInput2 = document.querySelector("#angle__input-2").value;
+          const angleInput3 = document.querySelector("#angle__input-3").value;
           if (angleInput1 === "" || angleInput2 === "" || angleInput3 === "") {
             output.style.opacity = 0;
             setTimeout(() => {
@@ -61,7 +59,7 @@ const selectSubSection = (event) => {
             const angleInput1Val = parseFloat(angleInput1);
             const angleInput2Val = parseFloat(angleInput2);
             const angleInput3Val = parseFloat(angleInput3);
-            let sum = angleInput1Val + angleInput2Val + angleInput3Val;
+            const sum = angleInput1Val + angleInput2Val + angleInput3Val;
             if (
               angleInput1Val > 0 &&
               angleInput2Val > 0 &&
@@ -83,17 +81,17 @@ const selectSubSection = (event) => {
           }
         };
 
-        var submitBtn = document.querySelector("#angle__submit-btn");
+        const submitBtn = document.querySelector("#angle__submit-btn");
         submitBtn.addEventListener("click", verifyTriangularity);
 
-        var backBtn = document.querySelector("#angle__back-btn");
+        const backBtn = document.querySelector("#angle__back-btn");
         backBtn.addEventListener("click", goBack);
       }, 250);
 
       break;
 
     case "hypoCheck":
-      let hypoCheck = document.createElement("div");
+      const hypoCheck = document.createElement("div");
       hypoCheck.classList.add("hypo-check");
 
       hypoCheck.innerHTML = `
@@ -103,7 +101,7 @@ const selectSubSection = (event) => {
             <label class="hypo-check__base-label" for="base">Base=</label>
             <input id="hypo-check__base-input" class="hypo-check__base-input" name="base" type="number" />
             <label class="hypo-check__alt-label" for="altitude">Altitude=</label>
-            <input id="hypo-check__alt-input" class="hypo-check__alt-input" name="altitude" />
+            <input id="hypo-check__alt-input" class="hypo-check__alt-input" name="altitude" type="number"/>
             <button id="hypo-check__submit-btn" class="hypo-check__submit-btn">Submit</button>
             <h2 class="hypo-check__output_heading" >Hypotenuse would be shown here- </h2>
             <p id="hypo-check__output" class="hypo-check__output">Hypotenuse = √base<sup class="degree-symbol">2</sup>+altitude<sup class="degree-symbol">2</sup><p>
@@ -115,9 +113,9 @@ const selectSubSection = (event) => {
         documentContent.appendChild(hypoCheck);
         documentContent.style.opacity = 1;
 
-        const calcHypotenuse = (event) => {
-          let base = document.querySelector("#hypo-check__base-input").value;
-          let alt = document.querySelector("#hypo-check__alt-input").value;
+        const calcHypotenuse = () => {
+          const base = document.querySelector("#hypo-check__base-input").value;
+          const alt = document.querySelector("#hypo-check__alt-input").value;
 
           const output = document.querySelector("#hypo-check__output");
 
@@ -128,8 +126,8 @@ const selectSubSection = (event) => {
               output.style.opacity = 1;
             }, 250);
           } else {
-            let baseVal = parseFloat(base);
-            let altVal = parseFloat(alt);
+            const baseVal = parseFloat(base);
+            const altVal = parseFloat(alt);
 
             if (baseVal <= 0 || altVal <= 0) {
               output.style.opacity = 0;
@@ -164,16 +162,16 @@ const selectSubSection = (event) => {
           }
         };
 
-        var submitBtn = document.querySelector("#hypo-check__submit-btn");
+        const submitBtn = document.querySelector("#hypo-check__submit-btn");
         submitBtn.addEventListener("click", calcHypotenuse);
 
-        var backBtn = document.querySelector("#hypo-check__back-btn");
+        const backBtn = document.querySelector("#hypo-check__back-btn");
         backBtn.addEventListener("click", goBack);
       }, 250);
       break;
 
     case "area":
-      let calcAreaDiv = document.createElement("div");
+      const calcAreaDiv = document.createElement("div");
       calcAreaDiv.classList.add("calc-area");
       calcAreaDiv.innerHTML = `
       <button class="back-btn" id="calc-area__back-btn"><i class="fas fa-arrow-left"></i></button>    
@@ -205,7 +203,7 @@ const selectSubSection = (event) => {
         const areaOption2 = document.querySelector("#calc-area__option-2");
         const areaOption3 = document.querySelector("#calc-area__option-3");
 
-        let areaCalcOption1Div = document.createElement("div");
+        const areaCalcOption1Div = document.createElement("div");
         areaCalcOption1Div.classList.add("calc-area__option-1-res");
         areaCalcOption1Div.innerHTML = `
           <img  class="calc-area__option-1-res__image" alt="image describing base and height" src="./assets/images/triangle_base_and_height.png" />
@@ -221,7 +219,7 @@ const selectSubSection = (event) => {
           <p id="calc-area__option-1-res__output" class="calc-area__option-1-res__output" >Area = 1/2 * Base * Height</p>
           `;
 
-        let areaCalcOption2Div = document.createElement("div");
+        const areaCalcOption2Div = document.createElement("div");
         areaCalcOption2Div.classList.add("calc-area__option-2-res");
         areaCalcOption2Div.innerHTML = `
               <img  class="calc-area__option-2-res__image" alt="image of a triangle with sides a, b, and c" src="./assets/images/triangle_with_all_sides.png" />
@@ -240,7 +238,7 @@ const selectSubSection = (event) => {
               <p id="calc-area__option-2-res__output" class="calc-area__option-2-res__output" >Area = √s*(s-a)*(s-b)*(s-c); s(semi-perimeter) = (a+b+c)/2</p>
               `;
 
-        let areaCalcOption3Div = document.createElement("div");
+        const areaCalcOption3Div = document.createElement("div");
         areaCalcOption3Div.classList.add("calc-area__option-3-res");
         areaCalcOption3Div.innerHTML = `
               <img  class="calc-area__option-3-res__image" alt="image of a triangle with sides b, c, and angle betweeen them i.e. A" src="./assets/images/triangle_with_2_sides_and_1_angle.png" />
@@ -259,7 +257,7 @@ const selectSubSection = (event) => {
               <p id="calc-area__option-3-res__output" class="calc-area__option-3-res__output" >Area = 1/2*a*b*sin(A)</p>
               `;
 
-        areaOption1.addEventListener("click", (event) => {
+        areaOption1.addEventListener("click", () => {
           document.querySelector("#calc-area__radio-btn-1").checked = true;
           documentContent.appendChild(areaCalcOption1Div);
 
@@ -273,11 +271,11 @@ const selectSubSection = (event) => {
             const calcBtn = document.querySelector(
               "#calc-area__option-1-res__calculate-btn"
             );
-            calcBtn.addEventListener("click", (event) => {
-              let base = document.querySelector(
+            calcBtn.addEventListener("click", () => {
+              const base = document.querySelector(
                 "#calc-area__option-1-res__base-input"
               ).value;
-              let height = document.querySelector(
+              const height = document.querySelector(
                 "#calc-area__option-1-res__height-input"
               ).value;
 
@@ -292,8 +290,8 @@ const selectSubSection = (event) => {
                   output.style.opacity = 1;
                 }, 250);
               } else {
-                let baseVal = parseFloat(base);
-                let heightVal = parseFloat(height);
+                const baseVal = parseFloat(base);
+                const heightVal = parseFloat(height);
 
                 if (baseVal <= 0 || heightVal <= 0) {
                   output.style.opacity = 0;
@@ -341,14 +339,14 @@ const selectSubSection = (event) => {
             const calcBtn = document.querySelector(
               "#calc-area__option-2-res__calculate-btn"
             );
-            calcBtn.addEventListener("click", (event) => {
-              let side1 = document.querySelector(
+            calcBtn.addEventListener("click", () => {
+              const side1 = document.querySelector(
                 "#calc-area__option-2-res__side-1-input"
               ).value;
-              let side2 = document.querySelector(
+              const side2 = document.querySelector(
                 "#calc-area__option-2-res__side-2-input"
               ).value;
-              let side3 = document.querySelector(
+              const side3 = document.querySelector(
                 "#calc-area__option-2-res__side-3-input"
               ).value;
 
@@ -363,9 +361,9 @@ const selectSubSection = (event) => {
                   output.style.opacity = 1;
                 }, 250);
               } else {
-                let side1Val = parseFloat(side1);
-                let side2Val = parseFloat(side2);
-                let side3Val = parseFloat(side3);
+                const side1Val = parseFloat(side1);
+                const side2Val = parseFloat(side2);
+                const side3Val = parseFloat(side3);
 
                 if (side1Val <= 0 || side2Val <= 0 || side3Val <= 0) {
                   output.style.opacity = 0;
@@ -374,7 +372,7 @@ const selectSubSection = (event) => {
                     output.style.opacity = 1;
                   }, 250);
                 } else {
-                  let semiPerimeter = (side1Val + side2Val + side3Val) / 2;
+                  const semiPerimeter = (side1Val + side2Val + side3Val) / 2;
                   let area = Math.sqrt(
                     semiPerimeter *
                       (semiPerimeter - side1Val) *
@@ -405,7 +403,7 @@ const selectSubSection = (event) => {
           }, 250);
         });
 
-        areaOption3.addEventListener("click", (event) => {
+        areaOption3.addEventListener("click", () => {
           document.querySelector("#calc-area__radio-btn-3").checked = true;
           documentContent.appendChild(areaCalcOption3Div);
 
@@ -419,14 +417,14 @@ const selectSubSection = (event) => {
             const calcBtn = document.querySelector(
               "#calc-area__option-3-res__calculate-btn"
             );
-            calcBtn.addEventListener("click", (event) => {
-              let side1 = document.querySelector(
+            calcBtn.addEventListener("click", () => {
+              const side1 = document.querySelector(
                 "#calc-area__option-3-res__side-1-input"
               ).value;
-              let side2 = document.querySelector(
+              const side2 = document.querySelector(
                 "#calc-area__option-3-res__side-2-input"
               ).value;
-              let angle3 = document.querySelector(
+              const angle3 = document.querySelector(
                 "#calc-area__option-3-res__angle-3-input"
               ).value;
 
@@ -441,9 +439,9 @@ const selectSubSection = (event) => {
                   output.style.opacity = 1;
                 }, 250);
               } else {
-                let side1Val = parseFloat(side1);
-                let side2Val = parseFloat(side2);
-                let angle3Val = parseFloat(angle3);
+                const side1Val = parseFloat(side1);
+                const side2Val = parseFloat(side2);
+                const angle3Val = parseFloat(angle3);
                 if (side1Val <= 0 || side2Val <= 0) {
                   output.style.opacity = 0;
                   setTimeout(() => {
@@ -481,7 +479,7 @@ const selectSubSection = (event) => {
           }, 250);
         });
 
-        var backBtn = document.querySelector("#calc-area__back-btn");
+        const backBtn = document.querySelector("#calc-area__back-btn");
         backBtn.addEventListener("click", goBack);
       }, 250);
 
@@ -540,14 +538,14 @@ const selectSubSection = (event) => {
         },
       ];
 
-      let questions = quizData.map((quizQues, quesIndex) => {
-        let quesDiv = document.createElement("div");
+      const questions = quizData.map((quizQues, quesIndex) => {
+        const quesDiv = document.createElement("div");
         quesDiv.classList.add("question");
 
-        let optionsDiv = document.createElement("div");
+        const optionsDiv = document.createElement("div");
         optionsDiv.classList.add("options");
         quizQues.options.forEach((option, index) => {
-          let optionDiv = document.createElement("div");
+          const optionDiv = document.createElement("div");
           optionDiv.classList.add(`option-${index}`);
           optionDiv.innerHTML = `
             <input class="option" type="radio" name="${quesIndex}" value="${option}"/>
@@ -556,7 +554,7 @@ const selectSubSection = (event) => {
           optionsDiv.appendChild(optionDiv);
         });
         optionsDiv.childNodes.forEach((optionDiv, index) => {
-          optionDiv.addEventListener("click", (event) => {
+          optionDiv.addEventListener("click", () => {
             optionDiv.childNodes[1].checked = true;
             optionDiv.childNodes[3].classList.add("bgPurple");
             optionsDiv.childNodes.forEach((opt, ind) => {
@@ -571,7 +569,7 @@ const selectSubSection = (event) => {
         <h2 class="question-txt">${quizQues.ques}</h2>
         `;
         quesDiv.appendChild(optionsDiv);
-        let submitBtn = document.createElement("button");
+        const submitBtn = document.createElement("button");
         submitBtn.classList.add("submit-btn");
         submitBtn.innerText = "Next";
         submitBtn.setAttribute("data-correct", quizQues.correct);
@@ -589,11 +587,11 @@ const selectSubSection = (event) => {
         scoreForEachQues,
         maxScore
       ) => {
-        submitBtn.addEventListener("click", (event) => {
-          let correctAns = event.target.getAttribute("data-correct");
-          let options = document.querySelectorAll(".option");
+        submitBtn.addEventListener("click", event => {
+          const correctAns = event.target.getAttribute("data-correct");
+          const options = document.querySelectorAll(".option");
           let isAttempted = false;
-          options.forEach((option) => {
+          options.forEach(option => {
             if (option.checked === true) {
               isAttempted = true;
               if (option.value === correctAns) {
@@ -603,7 +601,6 @@ const selectSubSection = (event) => {
               } else {
                 question.classList.add("bgRed");
                 question.classList.add("border-solid-2px-black");
-                // score -= scoreForEachQues;
               }
             }
           });
@@ -615,7 +612,7 @@ const selectSubSection = (event) => {
             question.remove();
             quesIndex += 1;
             if (quesIndex === questions.length) {
-              let scoreDiv = document.createElement("div");
+              const scoreDiv = document.createElement("div");
               scoreDiv.classList.add("score");
               scoreDiv.innerHTML = `
                     <h2>You scored ${score}/${maxScore} points</h2>
@@ -646,14 +643,14 @@ const selectSubSection = (event) => {
         questionIndex < questions.length;
         questionIndex++
       ) {
-        let question = questions[questionIndex];
-        let score = 0;
+        const question = questions[questionIndex];
+        const score = 0;
         const scoreAwardedForEachQues = 1;
         const maxScore = questions.length * scoreAwardedForEachQues;
 
         if (questionIndex === 0) {
           documentContent.appendChild(question);
-          let submitBtn = document.querySelector(".submit-btn");
+          const submitBtn = document.querySelector(".submit-btn");
           addQues(
             submitBtn,
             questionIndex,
@@ -665,7 +662,7 @@ const selectSubSection = (event) => {
         }
       }
 
-      var backBtn = document.querySelector("#quiz__back-btn");
+      const backBtn = document.querySelector("#quiz__back-btn");
       backBtn.addEventListener("click", goBack);
       break;
   }
